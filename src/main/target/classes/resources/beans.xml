@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="TradesDAO" class="ru.sbt.bit.ood.hw1.TradesDAO"></bean>
+
+    <bean id="Downloader" class="ru.sbt.bit.ood.hw1.DummyDownloader"></bean>
+
+    <bean id="Parser" class="ru.sbt.bit.ood.hw1.DummyParser"></bean>
+
+    <bean id="TradesJob" class="ru.sbt.bit.ood.hw1.TradesJob" init-method="run">
+        <constructor-arg ref="TradesDAO"></constructor-arg>
+        <constructor-arg ref="Downloader"></constructor-arg>
+        <constructor-arg ref="Parser"></constructor-arg>
+    </bean>
+    <!-- more bean definitions go here -->
+
+</beans>
