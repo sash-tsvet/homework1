@@ -1,10 +1,14 @@
 package ru.sbt.bit.ood.hw1;
 
-import java.io.*;
 import org.apache.commons.net.ftp.FTPClient;
 
-public class TradesDownload {
-    public static String downloadTradesFileFromFTP() {
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+
+public class DownloadFromFTP implements Downloader {
+    public String download() {
         FTPClient ftpClient = new FTPClient();
         try {
             ftpClient.connect("localhost", 8090);

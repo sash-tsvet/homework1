@@ -1,27 +1,31 @@
 package ru.sbt.bit.ood.hw1;
 
 
-import org.apache.commons.csv.CSVRecord;
+import java.util.Collection;
 
 
 public class TradesJob {
 
     private final TradesDAO tradesDAO;
+    private final Parser parser;
+    private final Downloader downloader;
 
-    public TradesJob(TradesDAO tradesDAO) {
+    public TradesJob(TradesDAO tradesDAO, Parser parser, Downloader downloader) {
         this.tradesDAO = tradesDAO;
+        this.parser = parser;
+        this.downloader = downloader;
     }
 
+
     public void run() {
-        String filename = TradesDownload.downloadTradesFileFromFTP();
-        Iterable<CSVRecord> tradeRecords = TradesParse.parse(filename);
+        String filename = downloader.download();
+        Collection<Trade> tradeRecords = parser.parse(filename);
         updateTrades(tradeRecords);
     }
 
-    private void updateTrades(Iterable<CSVRecord> trades) {
+    private void updateTrades(Collection<Trade> trades) {
         tradesDAO.deleteAll();
-        for (CSVRecord tradeRecord : trades) {
-            Trade trade = new Trade(tradeRecord.toMap());
+        for (Trade trade : trades) {
             tradesDAO.save(trade);
         }
     }
